@@ -37,13 +37,12 @@ public class CategoryServiceImp implements CategoryService {
 	}
 
 	@Override
-	public void saveCategory(CategoryDTO dto) {
+	@Transactional(readOnly = true)
+	public CategoryDTO saveCategory(CategoryDTO dto) {
 		Category c = new Category();
-		c.setId(dto.getId());
 		c.setName(dto.getName());
-		if (c != null) {
-			repository.save(c);
-		}
+		c = repository.save(c);
+		return new CategoryDTO(c);
 	}
 
 	@Override

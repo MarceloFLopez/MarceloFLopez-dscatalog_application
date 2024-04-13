@@ -8,7 +8,7 @@ public interface CategoryService {
 	
 	public List<CategoryDTO> findaAll();
 	public CategoryDTO findById(Long id);
-	public void saveCategory(CategoryDTO c);
+	public CategoryDTO saveCategory(CategoryDTO c);
 	public void deleteCategory(Long id);
 
 }
