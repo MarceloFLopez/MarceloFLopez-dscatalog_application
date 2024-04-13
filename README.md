@@ -1,4 +1,4 @@
-# ProwayComputers
+# DsCatalog Application
 
 Este projeto foi gerado com [Sring Initializer](https://start.spring.io/) versão 3.1.10.
 
