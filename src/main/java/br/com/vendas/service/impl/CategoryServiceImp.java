@@ -1,12 +1,12 @@
 package br.com.vendas.service.impl;
 
-import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.dao.EmptyResultDataAccessException;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
@@ -26,10 +26,10 @@ public class CategoryServiceImp implements CategoryService {
 
 	@Override
 	@Transactional(readOnly = true)
-	public List<CategoryDTO> findaAll() {
-		List<Category> list = repository.findAll();
+	public Page<CategoryDTO> findaAllPaged(PageRequest pageRequest) {
+		Page<Category> list = repository.findAll(pageRequest);
 		// convertendo ListCategoryDTO em ListCategory
-		return list.stream().map(x -> new CategoryDTO(x)).collect(Collectors.toList());
+		return list.map(x -> new CategoryDTO(x));
 	}
 
 	@Override
@@ -67,10 +67,10 @@ public class CategoryServiceImp implements CategoryService {
 		try {
 			repository.deleteById(id);
 		} catch (EmptyResultDataAccessException e) {
-			//excessão para deletar um registro que não existe
+			// excessão para deletar um registro que não existe
 			throw new ResourceNotFoundException("Id not found " + id);
-		}catch (DataIntegrityViolationException e) {
-			//excessão para deletar um registro que possui associação de classe
+		} catch (DataIntegrityViolationException e) {
+			// excessão para deletar um registro que possui associação de classe
 			throw new DataBaseException("Integrity  Violation!");
 		}
 	}
